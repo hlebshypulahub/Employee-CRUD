@@ -6,6 +6,17 @@ class EmployeeService {
         return fetch(EMPLOYEE_API_BASE_URL);
     }
 
+    createEmployee(employee: Object): Promise<Response> {
+        return fetch(EMPLOYEE_API_BASE_URL, {
+            method: 'POST',
+            body: JSON.stringify(employee),
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+        });
+    }
+
 }
 
 export default new EmployeeService();
