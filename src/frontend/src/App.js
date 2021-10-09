@@ -4,12 +4,14 @@ import FooterComponent from "./components/FooterComponent";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEmployeeComponent from "./components/ListEmployeeComponent";
 import CreateEmployeeComponent from "./components/CreateEmployeeComponent";
+import UpdateEmployeeComponent from "./components/UpdateEmployeeComponent";
+
 
 function App() {
     return (
         <div>
             <Router>
-                <HeaderComponent />
+                <HeaderComponent /> 
                 <div className="container">
                     <Switch>
                         <Route
@@ -24,6 +26,10 @@ function App() {
                         <Route
                             path="/employees"
                             component={ListEmployeeComponent}
+                        ></Route>
+                        <Route
+                            path="/update-employee/:id"
+                            component={UpdateEmployeeComponent}
                         ></Route>
                     </Switch>
                 </div>
