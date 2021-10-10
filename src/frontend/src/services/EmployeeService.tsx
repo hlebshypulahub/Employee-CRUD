@@ -25,7 +25,6 @@ class EmployeeService {
     }
 
     updateEmployee(employee: Employee): Promise<Response> {
-        console.log(EMPLOYEE_API_BASE_URL + "/" + employee.id);
         return fetch(EMPLOYEE_API_BASE_URL + "/" + employee.id, {
             method: 'PUT',
             body: JSON.stringify(employee),
@@ -38,6 +37,12 @@ class EmployeeService {
 
     getEmployeeById(employeeId: number): Promise<Response> {
         return fetch(EMPLOYEE_API_BASE_URL + "/" + employeeId);
+    }
+
+    deleteEmployee(employeeId: number): Promise<Response> {
+        return fetch(EMPLOYEE_API_BASE_URL + "/" + employeeId, {
+            method: 'DELETE',
+        });
     }
 }
 

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -45,5 +47,15 @@ public class EmployeeController {
                                                        newEmployee.setId(id);
                                                        return employeeRepository.save(newEmployee);
                                                    }));
+    }
+
+    @DeleteMapping("employees/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable long id) {
+        employeeRepository.delete(employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not exist: id  = " + id)));
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", true);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -6,6 +6,7 @@ class CreateEmployeeComponent extends Component {
         super(props);
 
         this.state = {
+            id: this.props.match.params.id,
             firstName: "",
             lastName: "",
             emailId: "",
@@ -17,6 +18,23 @@ class CreateEmployeeComponent extends Component {
         this.saveEmployee = this.saveEmployee.bind(this);
     }
 
+    componentDidMount() {
+        if (this.state.id === -1) {
+            return;
+        } else {
+            EmployeeService.getEmployeeById(this.state.id).then((res) =>
+                res.json().then((data) => {
+                    let employee = data;
+                    this.setState({
+                        firstName: employee.firstName,
+                        lastName: employee.lastName,
+                        emailId: employee.emailId,
+                    });
+                })
+            );
+        }
+    }
+
     saveEmployee = (e) => {
         e.preventDefault();
 
@@ -26,9 +44,17 @@ class CreateEmployeeComponent extends Component {
             emailId: this.state.emailId,
         };
 
-        EmployeeService.createEmployee(employee).then((res) => {
-            this.props.history.push("/employees");
-        });
+        if (this.state.id === -1) {
+            EmployeeService.createEmployee(employee).then((res) => {
+                this.props.history.push("/employees");
+            });
+        } else {
+            employee.id = this.state.id;
+
+            EmployeeService.updateEmployee(employee).then((res) => {
+                this.props.history.push("/employees");
+            });
+        }
     };
 
     cancel() {
@@ -53,7 +79,11 @@ class CreateEmployeeComponent extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Add Employee</h3>
+                            {this.state.id === "-1" ? (
+                                <h3 className="text-center">Add Employee</h3>
+                            ) : (
+                                <h3 className="text-center">Update Employee</h3>
+                            )}
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
